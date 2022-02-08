@@ -1,0 +1,92 @@
+
+*{
+  font-family: 'Big Shoulders Inline Text', cursive;
+  font-family: 'Big Shoulders Stencil Text', cursive;
+  font-family: 'Dongle', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto Slab', serif;
+  font-family: 'Satisfy', cursive;
+  font-family: 'Source Serif Pro', serif;
+  font-family: 'Texturina', serif;
+}
+
+.titulo {
+  padding: 15px;
+  width: 60vw;
+  margin: auto;
+  color:brown
+
+}
+
+.btn {
+  border: 0;
+  color: white;
+  font-weight: bold;
+  background-color: rgb(92, 41, 41);
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 9em;
+}
+
+.text-input {
+  border-radius: 0.5em;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  display: block;
+  padding: 0.5em;
+  width: 30%;
+  height: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.letras{
+  width: 20px;
+  text-align: center;
+  border-bottom: 1px solid rgb(92, 41, 41);
+  color:blueviolet;
+  padding: 3px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+
+#teclado{
+  margin-top: 30px;
+  margin:auto;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.teclas button{
+  width: 34px;
+  height: 34px;
+  margin: 2px;
+  margin-bottom: 5px;
+  cursor:pointer;
+  box-shadow: 0px 2px 8px dimgray;
+  border-radius: 5px;
+  border: 1px solid dimgray;
+  color: brown;
+  font-weight: 600;
+}
+.teclas button:hover{
+  transform: scale(1.5);
+}
+@media (min-width: 769px) {
+  .teclas button{
+    width: 68px;
+    height: 68px;
+    font-size: 2,5em;
+}
+}
+
