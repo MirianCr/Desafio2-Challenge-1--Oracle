@@ -1,33 +1,18 @@
-
-*{
-  font-family: 'Big Shoulders Inline Text', cursive;
-  font-family: 'Big Shoulders Stencil Text', cursive;
-  font-family: 'Dongle', sans-serif;
-  font-family: 'Open Sans', sans-serif;
-  font-family: 'Roboto', sans-serif;
-  font-family: 'Roboto Slab', serif;
-  font-family: 'Satisfy', cursive;
-  font-family: 'Source Serif Pro', serif;
-  font-family: 'Texturina', serif;
-}
-
 .titulo {
   padding: 15px;
-  width: 60vw;
+  width: 30vw;
   margin: auto;
-  color:brown
-
 }
 
 .btn {
   border: 0;
   color: white;
   font-weight: bold;
-  background-color: rgb(92, 41, 41);
+  background-color: blue;
   padding: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
-  border-radius: 9em;
+  border-radius: 0.5em;
 }
 
 .text-input {
@@ -41,57 +26,45 @@
   margin-right: auto;
 }
 
-.container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  flex-direction: column;
-}
-
-.letras{
-  width: 20px;
+.tracos {
+  width: 50px;
+  height: 30px;
+  border-bottom-style: solid;
   text-align: center;
-  border-bottom: 1px solid rgb(92, 41, 41);
-  color:blueviolet;
-  padding: 3px;
-  margin-left: 2px;
-  margin-right: 2px;
-}
-
-
-#teclado{
-  margin-top: 30px;
-  margin:auto;
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.teclas button{
-  width: 34px;
-  height: 34px;
+  font-size: 30px;
   margin: 2px;
-  margin-bottom: 5px;
-  cursor:pointer;
-  box-shadow: 0px 2px 8px dimgray;
-  border-radius: 5px;
-  border: 1px solid dimgray;
-  color: brown;
-  font-weight: 600;
-}
-.teclas button:hover{
-  transform: scale(1.5);
+
+  left: 50%;
+  top: 50%;
 }
 
-footer .linke {
-  width: 30px;
-  height: 25px;
-  padding: 5px;
-  
-}
-footer {
-  text-align: center;
+.letras {
+  position: absolute;
   display: flex;
-  margin-left: 30%; 
-  
+  justify-content: space-around;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 40px;
+  background-color: rgb(143, 143, 143);
+}
+
+.letras-erradas {
+  position: absolute;
+  width: 600px;
+  height: 100px;
+
+  left: 30%;
+  top: 55%;
+  text-align: center;
+  font-size: 40px;
+  color: brown;
+}
+
+.chances {
+  position: absolute;
+  left: 10%;
+  top: 35%;
+  font-size: 30px;
 }

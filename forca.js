@@ -1,199 +1,139 @@
-//botao iniciar jogo
-/* Lista de palavras iniciais secretas para o começo do jogo */
+const caixaLetras = document.querySelector('.letras')
+const chanceElemento = document.querySelector('.chances')
+const elementoLetrasErradas = document.querySelector('.letras-erradas')
+var palavrasChaves = ['ALURA']
 
-/* sera as variáveis e arrays para o funcionamento do programa */
-palavras = ['cachorro','baleia','gaivota','porco','cavalo','gato','galinha','tigre','macaco','peixe']
-palavrasorteada = '';
-erros = 0;
-acertos = 0;
-letrascorretas = [];
-letraserradas = [];
-letrasdigitadas = [];
-letratempqtde = 0;
-addinit = false;
+var indiceEscolhido
+var palavraEscolhida
+var palavraSeparada
+var tamanhoPalavra
+var letrasErradas = []
+var letrasEncontradas = 0
+var chances = 6
 
-/* Evento adicionado ao botão iniciar jogo */
-var botaoIniciar = document.querySelector("#iniciar-jogo");
-botaoIniciar.addEventListener("click", function(){
-    event.preventDefault();
-    letrascorretas = []
-    letraserradas = []
-    acertos = 0;
-    erros = 0;
-    letrascorretas = [];
-    letraserradas = [];
-    letrasdigitadas = [];
-    palavrasorteada = sortearPalavra();
-    desenhaTela();
-    desenhaLinhas(palavrasorteada);
-    desenhaForca();
-    addinit = true;
-    return palavrasorteada;
-});
+function criarElementos() {
+  // ESCOLHENDO UMA DAS PALAVRAS NO ARRAY
 
-/* Evento adicionado ao botão de adicionar palavra*/
-var botaoAdicionar = document.querySelector("#nova-palavra");
-botaoAdicionar.addEventListener("click", function(){
-    event.preventDefault();
-    var campopalavra = document.querySelector("#input-nova-palavra");
-    var novapalavra = campopalavra.value;
-    palavras.push(novapalavra);
-    alert('Palavra '+novapalavra + ' adicionada!' );
-});
+  indiceEscolhido = gerarNumeroAletorio()
+  palavraEscolhida = palavrasChaves[indiceEscolhido]
+  palavraSeparada = palavraEscolhida.split('')
+  tamanhoPalavra = palavraEscolhida.length
 
-/* Função que verifica se o jogo já terminou */
-function verificaFim(){
-    if (erros == 1){
-        desenhaCabeca();
-    }
-    if (erros == 2){
-        desenhaTronco();
-    }
-    if (erros == 3){
-        desenhaBracoEsq();
-    }
-    if (erros == 4){
-        desenhaBracoDir();
-    }
-    if (erros == 5){
-        desenhaPernaEsq();
-    }
-    if (erros == 6) {
-        desenhaPernaDir();
-        escreverPerdeu();
-    }
-    if (acertos >= letratempqtde) {
-        escreverGanhou();
-    }
+  for (var i = 0; i < tamanhoPalavra; i++) {
+    // CRIANDO ELEMENTO
+    let letrasIndividuais = document.createElement('div')
+    // ADICIONANDO O NOVO ELEMNTO A CAIXA LETRAS
+    caixaLetras.appendChild(letrasIndividuais)
+    // ADICIONANDO CLASE AO NOVO ELEMNTO
+    letrasIndividuais.classList.add('tracos')
+    // ESCREVENDO A LETRA ESPECÍFICA
+    letrasIndividuais.classList.add(palavraSeparada[i])
+  }
+  desenhaForca()
 }
 
-/* Função que sorteia uma palavra aleatoriamente*/
-function sortearPalavra() {
-    qtdepalavras = palavras.length;
-    sorteiopalavras = Math.floor(Math.random() * qtdepalavras);
-    palavrasecreta = palavras[sorteiopalavras];
-    return palavrasecreta;
-}
+criarElementos()
 
-/* Função que verifica se a letra digitada está correta */
-function verificaLetra(letra){
-    var letratemp = palavrasorteada.split('');
-    letratempqtde = letratemp.length;
-    if (letrascorretas.includes(letra) == false && letraserradas.includes(letra) == false){
-        if (letratemp.includes(letra) == true){
-            for (var c = 0; c < letratempqtde; c++) {
-                if (letratemp[c] == letra) {
-                    escreverLetraCorreta(letra,c+1);
-                        letrascorretas.push(letra);
-                        acertos = acertos+1;
-                        verificaFim();
-                }
-            }
+document.addEventListener('keydown', interacaoUsuario)
+
+function interacaoUsuario(evento) {
+  // CAPTURANDO TECLA APERTADA
+  var teclaApertada = evento.key
+  teclaApertada = teclaApertada.toUpperCase()
+  var estaNoAlfabeto = 'ABCÇDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(teclaApertada) > -1
+
+  if (estaNoAlfabeto) {
+    var verificarSeExisteLetra = palavraEscolhida.indexOf(teclaApertada) > -1
+    var oJogadorJaErrouEssaLetra = letrasErradas.indexOf(teclaApertada) > -1
+    // VERIFICAR SE A LETRA EXISTE NA PALAVRA ESCOLHIDA
+    if (verificarSeExisteLetra) {
+      palavraSeparada.forEach(elemento => {
+        if (elemento == teclaApertada) {
+          letrasEncontradas++
         }
-        else {
-            escreverLetraErrada(letra,15);
-            letraserradas.push(letra);
-            erros = erros+1;
-            verificaFim();
-        }
+      })
+
+      if (letrasEncontradas == tamanhoPalavra) {
+        vitoria()
+      } else {
+        // ADICIONAR A LETRA DIGITADA NA TELA
+
+        var mostrarLetra = document.querySelectorAll(`.${teclaApertada}`)
+        mostrarLetra.forEach(elemento => {
+          elemento.innerHTML = teclaApertada
+        })
+      }
     } else {
-        alert('Você já digitou esta letra!');
+      if (!oJogadorJaErrouEssaLetra) {
+        // ADICIONANDO LETRA ERRADA NO ARRAY
+        letrasErradas.push(teclaApertada)
+        chances--
+        desenha()
+        elementoLetrasErradas.textContent = `Letras erradas: ${letrasErradas}`
+        chanceElemento.textContent = `Chances restantes: ${chances}`
+
+        if (chances == 0) {
+          perdeu()
+        }
+      }
     }
+  }
 }
 
-function reiniciarJogo(){
-    var botaoReiniciar = document.querySelector('#iniciar-jogo');
-    botaoReiniciar.textContent = 'REINICIAR JOGO';
+function gerarNumeroAletorio() {
+  return Math.floor(Math.random() * palavrasChaves.length)
 }
 
-/*Função que verifica se a tecla pressionada é uma letra*/
-document.addEventListener('keydown', function(event) {
-    if (addinit == true) {
-        /* console.log(event.keyCode); */
-        letra = false;
-        if(event.keyCode == 65){
-            letra = "a";
-        }
-        if(event.keyCode == 66){
-            letra = "b";
-        }
-        if(event.keyCode == 67){
-            letra = "c";
-        }
-        if(event.keyCode == 68){
-            letra = "d";
-        }
-        if(event.keyCode == 69){
-            letra = "e";
-        }
-        if(event.keyCode == 70){
-            letra = "f";
-        }
-        if(event.keyCode == 71){
-            letra = "g";
-        }
-        if(event.keyCode == 72){
-            letra = "h";
-        }
-        if(event.keyCode == 73){
-            letra = "i";
-        }
-        if(event.keyCode == 74){
-            letra = "j";
-        }
-        if(event.keyCode == 75){
-            letra = "k";
-        }
-        if(event.keyCode == 76){
-            letra = "l";
-        }
-        if(event.keyCode == 77){
-            letra = "m";
-        }
-        if(event.keyCode == 78){
-            letra = "n";
-        }
-        if(event.keyCode == 79){
-            letra = "o";
-        }
-        if(event.keyCode == 80){
-            letra = "p";
-        }
-        if(event.keyCode == 81){
-            letra = "q";
-        }
-        if(event.keyCode == 82){
-            letra = "r";
-        }
-        if(event.keyCode == 83){
-            letra = "s";
-        }
-        if(event.keyCode == 84){
-            letra = "t";
-        }
-        if(event.keyCode == 85){
-            letra = "u";
-        }
-        if(event.keyCode == 86){
-            letra = "v";
-        }
-        if(event.keyCode == 87){
-            letra = "w";
-        }
-        if(event.keyCode == 88){
-            letra = "x";
-        }
-        if(event.keyCode == 89){
-            letra = "y";
-        }
-        if(event.keyCode == 90){
-            letra = "z";
-        }
-        if(event.keyCode == 186){
-            letra = "ç";
-        }
-        if (letra !== false){
-            verificaLetra(letra);
-        }
-    }
-});
+function perdeu() {
+  limparCanvas()
+  alert(`Você perdeu, a palavra correta era ${palavraEscolhida}`)
+  chances = 6
+  letrasEncontradas = 0
+  letrasErradas = []
+  chanceElemento.textContent = `Chances restantes: ${chances}`
+  elementoLetrasErradas.textContent = `Letras erradas: ${letrasErradas}`
+  var todasAsLetras = document.querySelectorAll('.tracos')
+  todasAsLetras.forEach(elemento => {
+    elemento.remove()
+  })
+  criarElementos()
+}
+
+function vitoria() {
+  limparCanvas()
+  alert('Você ganhou!')
+  chances = 6
+  letrasEncontradas = 0
+  letrasErradas = []
+  chanceElemento.textContent = `Chances restantes: ${chances}`
+  elementoLetrasErradas.textContent = `Letras erradas: ${letrasErradas}`
+  var todasAsLetras = document.querySelectorAll('.tracos')
+  todasAsLetras.forEach(elemento => {
+    elemento.remove()
+  })
+  criarElementos()
+}
+
+function adicionarNovaPalavra() {
+  let caixaDetexto = document.querySelector('#input-nova-palavra')
+  let palavraMaiuscula = caixaDetexto.value.toUpperCase()
+  palavrasChaves.push(palavraMaiuscula)
+  caixaDetexto.value = ''
+}
+
+function desenha() {
+  if (chances == 5) {
+    desenhaCabeca()
+  } else if (chances == 4) {
+    desenhaTronco()
+  } else if (chances == 3) {
+    desenhaBracoEsq()
+  } else if (chances == 2) {
+    desenhaBracoDir()
+  } else if (chances == 1) {
+    desenhaPernaEsq()
+  } else if (chances == 0) {
+    desenhaPernaDir()
+  }
+}
+// hoisting -> içamento
