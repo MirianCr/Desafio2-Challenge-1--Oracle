@@ -1,0 +1,99 @@
+.titulo {
+  padding: 15px;
+  width: 30vw;
+  margin: auto;
+}
+a {
+  text-decoration: none;
+  color: white;
+}
+body {
+  background: #130216db;
+  color: white;
+  text-align: center;
+}
+
+.btn {
+  border: #b74817;
+    color: #4e0303;
+    font-weight: bold;
+    background-color: #9370db;
+    padding: 14px;
+    margin-top: 10px;   
+    border-radius: 20%;
+}
+
+.text-input {
+  border-radius: 0.5em;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  display: block;
+  padding: 0.5em;
+  width: 30%;
+  height: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tracos {
+  width: 50px;
+  height: 30px;
+  border-bottom-style: solid;
+  text-align: center;
+  font-size: 30px;
+  margin: 2px;
+  left: 50%;
+  top: 50%;
+}
+
+.letras {
+  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  left: 50%;
+  top: 79%;
+  transform: translate(-50%, -50%);
+  width: 429px;
+}
+
+.letras-erradas {
+  position: absolute;
+  width: 50%;
+  height: 100px;
+  left: 36%;
+  top: 55%;
+  text-align: center;
+  font-size: 40px;
+  color: brown;
+}
+
+.letras-corretas{
+  position: absolute;
+  width: 50%;
+  height: 100px;
+  left: 36%;
+  top: 61%;
+  text-align: center;
+  font-size: 40px;
+  color: green;
+
+}
+
+.chances {
+  position: absolute;
+  left: 43%;
+  top: 35%;
+  font-size: 26px;
+}
+
+
+footer .linke {
+  width: 30px;
+  height: 25px;
+}
+
+footer {
+  width: 100%;
+  text-align: center;  
+  bottom: 0;
+  left: 0;
+}
